@@ -29,10 +29,29 @@
 
     h2 {
       font-size: 24px;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       color: #00ffff;
       text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
       animation: fadeInDown 1s ease forwards;
+    }
+
+    .progress-container {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto 30px;
+      height: 20px;
+      background-color: #444;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px #0ff6;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #0ff, #00f);
+      transition: width 0.5s ease;
+      border-radius: 10px;
     }
 
     .step {
@@ -177,6 +196,10 @@
 
   <h2>نفذ هذه الخطوات أولاً لكي يتم فتح لك روابط التحميل</h2>
 
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
   <div id="step1" class="step active">
     <a href="#" onclick="completeStep(1, 'https://www.youtube.com/@MRGAMESFF-k3q'); return false;">
       <span>📺🔔 اضغط هنا وقم بالاشتراك في القناة 1 وتفعيل زر الجرس</span>
@@ -227,6 +250,7 @@
           nextStep.classList.add('active');
         }
         unlockButtons();
+        updateProgressBar();
       }, 10000);
     }
 
@@ -240,6 +264,7 @@
         document.getElementById('step' + step).classList.add('completed');
         checkSpan.innerText = '✅';
         unlockButtons();
+        updateProgressBar();
       }, 10000);
     }
 
@@ -260,6 +285,17 @@
         btnDownload.innerText = '🔓 اضغط هنا لتحميل لعبة روبلوكس مهكرة';
         btnRobux.innerText = '🔓 اضغط هنا لمعرفة طريقة الحصول على روبوكس مجاني';
       }
+    }
+
+    function updateProgressBar() {
+      let completedSteps = 0;
+      for (let i = 1; i <= 3; i++) {
+        if (document.getElementById('step' + i).classList.contains('completed')) {
+          completedSteps++;
+        }
+      }
+      const progressPercent = (completedSteps / 3) * 100;
+      document.getElementById('progressBar').style.width = progressPercent + '%';
     }
 
     function goToDownload() {
