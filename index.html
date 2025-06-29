@@ -230,6 +230,7 @@
   </div>
 
   <script>
+const STEP_EXPIRY_MS = 30 * 60 * 1000; // نصف ساعة
     const step3Links = [
       "https://youtu.be/CYzCkO2faCI?si=dxjNGLWa1ZTBoUuO",
       "https://youtu.be/FvKaH1O5p2A?si=fzpm_APuoR0k85iL",
@@ -237,6 +238,40 @@
       "https://youtu.be/2NUIqCo9GsA?si=5B9x7PGkoVw49qqE",
       "https://youtu.be/tRfwoy1EnTA?si=R2KtVKde3LmHgYRW"
     ];
+
+    const savedState = JSON.parse(localStorage.getItem("stepsState") || "{}");
+    const isStateExpired = () => {
+      if (!savedState.timestamp) return true;
+      return Date.now() - savedState.timestamp > STEP_EXPIRY_MS;
+    };
+
+    window.onload = () => {
+      if (!isStateExpired()) {
+        for (let i = 1; i <= 3; i++) {
+          if (savedState['step' + i]) {
+            document.getElementById('step' + i).classList.add('completed');
+            document.getElementById('check' + i).innerText = '✅';
+            const nextStep = document.getElementById('step' + (i + 1));
+            if (nextStep) {
+              nextStep.classList.add('active');
+            }
+          } else {
+            break;
+          }
+        }
+        unlockButtons();
+        updateProgressBar();
+      } else {
+        localStorage.removeItem("stepsState");
+      }
+    };
+
+    function saveStepState(step) {
+      const current = JSON.parse(localStorage.getItem("stepsState") || "{}");
+      current['step' + step] = true;
+      current.timestamp = Date.now();
+      localStorage.setItem("stepsState", JSON.stringify(current));
+    }
 
     function completeStep(step, url) {
       const checkSpan = document.getElementById('check' + step);
@@ -249,6 +284,7 @@
         if (nextStep) {
           nextStep.classList.add('active');
         }
+        saveStepState(step);
         unlockButtons();
         updateProgressBar();
       }, 10000);
@@ -263,6 +299,7 @@
       setTimeout(() => {
         document.getElementById('step' + step).classList.add('completed');
         checkSpan.innerText = '✅';
+        saveStepState(step);
         unlockButtons();
         updateProgressBar();
       }, 10000);
@@ -309,3 +346,5 @@
 
 </body>
 </html>
+
+ 
