@@ -2,9 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>افتح الرابط</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <title>افتح الرابط</title>
   <style>
     * {
       box-sizing: border-box;
@@ -34,12 +33,12 @@
       border-radius: 12px;
       padding: 15px 20px;
       margin: 15px auto;
-      max-width: 500px;
+      max-width: 480px;
       width: 100%;
       box-shadow: 0 0 10px #0ff2;
       opacity: 0.4;
       pointer-events: none;
-      transition: 0.3s;
+      transition: 0.3s ease;
     }
 
     .step.active {
@@ -55,10 +54,12 @@
     .step span {
       text-align: right;
       font-size: 16px;
+      flex: 1;
     }
 
     .check {
       font-size: 20px;
+      margin-left: 10px;
     }
 
     a {
@@ -100,7 +101,7 @@
       border-radius: 12px;
       border: 2px solid #444;
       padding: 15px 10px;
-      max-width: 500px;
+      max-width: 480px;
       width: 100%;
       margin: auto;
       box-shadow: 0 0 10px #0ff3;
@@ -115,6 +116,8 @@
       font-size: 16px;
       font-weight: bold;
       margin: 10px auto;
+      width: 100%;
+      text-align: center;
       pointer-events: none;
       opacity: 0.5;
       transition: 0.3s;
@@ -130,16 +133,22 @@
       background-color: dodgerblue;
     }
 
-    /* Responsive */
     @media (max-width: 480px) {
       h2 {
         font-size: 20px;
       }
+
       .step span {
         font-size: 14px;
       }
+
       .final-message {
         font-size: 16px;
+      }
+
+      .final-buttons a {
+        font-size: 14px;
+        padding: 10px;
       }
     }
   </style>
