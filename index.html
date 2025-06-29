@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>افتح الرابط</title>
+  <style>
+    body {
+      background: #000;
+      color: white;
+      font-family: 'Tahoma', sans-serif;
+      text-align: center;
+      padding: 50px 10px;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #111;
+      border: 2px solid #444;
+      border-radius: 12px;
+      padding: 15px 20px;
+      margin: 15px auto;
+      width: 350px;
+      box-shadow: 0 0 10px #0ff2;
+      opacity: 0.4;
+      pointer-events: none;
+      transition: 0.3s;
+    }
+
+    .step.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .step.completed {
+      border-color: lime;
+      background-color: #141414;
+    }
+
+    .step span {
+      text-align: right;
+      font-size: 16px;
+    }
+
+    .check {
+      font-size: 20px;
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 30px;
+      color: #0ff;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #fff;
+      border-top: 2px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .final-section {
+      margin-top: 30px;
+    }
+
+    .final-message {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: red;
+    }
+
+    .final-buttons {
+      background: #111;
+      border-radius: 12px;
+      border: 2px solid #444;
+      padding: 15px 10px;
+      width: 380px;
+      margin: auto;
+      box-shadow: 0 0 10px #0ff3;
+    }
+
+    .final-buttons a {
+      display: block;
+      background-color: #555;
+      color: white;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      margin: 10px auto;
+      width: 350px;
+      text-align: center;
+      pointer-events: none;
+      opacity: 0.5;
+      transition: 0.3s;
+    }
+
+    .final-buttons a.active {
+      background-color: #0c0;
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    .final-buttons a#btnRobux.active {
+      background-color: dodgerblue;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>نفذ هذه الخطوات اولا لكي يتم فتح لك روابط التحميل</h2>
+
+  <div id="step1" class="step active">
+    <a href="#" onclick="completeStep(1, 'https://www.youtube.com/@MRGAMESFF-k3q'); return false;">
+      <span>📺🔔 اضغط هنا وقم بالاشتراك في القناة 1 وتفعيل زر الجرس</span>
+      <span id="check1">➡️</span>
+    </a>
+  </div>
+
+  <div id="step2" class="step">
+    <a href="#" onclick="completeStep(2, 'https://www.youtube.com/@DarkPanda-DP'); return false;">
+      <span>📺🔔 اضغط هنا وقم بالاشتراك في القناة 2 وتفعيل زر الجرس</span>
+      <span id="check2">➡️</span>
+    </a>
+  </div>
+
+  <div id="step3" class="step">
+    <a href="#" onclick="rotateStepLinks(3); return false;">
+      <span>👍💬 اضغط هنا وقم بعمل لايك وتعليق للفيديو الذي ستراه</span>
+      <span id="check3">➡️</span>
+    </a>
+  </div>
+
+  <div class="final-section">
+    <div id="finalMessage" class="final-message">❌ نفّذ الخطوات أولاً لكي يتم فتح روابط التحميل</div>
+    <div class="final-buttons">
+      <a id="btnDownload" href="#" onclick="goToDownload(); return false;">🔒 اضغط هنا لتحميل لعبة روبلوكس مهكرة</a>
+      <a id="btnRobux" href="#" onclick="goToRobux(); return false;">🔒 اضغط هنا لمعرفة طريقة الحصول على روبوكس مجاني</a>
+    </div>
+  </div>
+
+  <script>
+    const step3Links = [
+      "https://youtu.be/CYzCkO2faCI?si=dxjNGLWa1ZTBoUuO",
+      "https://youtu.be/FvKaH1O5p2A?si=fzpm_APuoR0k85iL",
+      "https://youtu.be/HT505S5e6OA?si=qSCthgAp7Di4MtFV",
+      "https://youtu.be/2NUIqCo9GsA?si=5B9x7PGkoVw49qqE",
+      "https://youtu.be/tRfwoy1EnTA?si=R2KtVKde3LmHgYRW"
+    ];
+
+    function completeStep(step, url) {
+      const checkSpan = document.getElementById('check' + step);
+      checkSpan.innerHTML = '<span class="loading"></span>';
+      window.open(url, '_blank');
+      setTimeout(() => {
+        document.getElementById('step' + step).classList.add('completed');
+        checkSpan.innerText = '✅';
+        const nextStep = document.getElementById('step' + (step + 1));
+        if (nextStep) {
+          nextStep.classList.add('active');
+        }
+        unlockButtons();
+      }, 6000);
+    }
+
+    function rotateStepLinks(step) {
+      const checkSpan = document.getElementById('check' + step);
+      const index = Math.floor(Math.random() * step3Links.length);
+      const selectedURL = step3Links[index];
+      checkSpan.innerHTML = '<span class="loading"></span>';
+      window.open(selectedURL, '_blank');
+      setTimeout(() => {
+        document.getElementById('step' + step).classList.add('completed');
+        checkSpan.innerText = '✅';
+        unlockButtons();
+      }, 6000);
+    }
+
+    function unlockButtons() {
+  const allCompleted = [...Array(3).keys()].every(i =>
+    document.getElementById('step' + (i + 1)).classList.contains('completed')
+  );
+  if (allCompleted) {
+    document.getElementById('finalMessage').innerText = '✅ تم تنفيذ كل الخطوات بنجاح';
+    document.getElementById('finalMessage').style.color = 'lime';
+
+    const btnDownload = document.getElementById('btnDownload');
+   const btnRobux = document.getElementById('btnRobux');
+
+    btnDownload.classList.add('active');
+    btnRobux.classList.add('active');
+
+    // تغيير القفل المغلق إلى مفتوح
+    btnDownload.innerText = '🔓 اضغط هنا لتحميل لعبة روبلوكس مهكرة';
+    btnRobux.innerText = '🔓 اضغط هنا لمعرفة طريقة الحصول على روبوكس مجاني';
+  }
+}
+
+
+    function goToDownload() {
+      window.open('https://linkjust.com/eYX2RE', '_blank');
+    }
+
+    function goToRobux() {
+      window.open('https://mrgamesff.blogspot.com/2025/06/blog-post_21.html', '_blank');
+    }
+  </script>
+
+</body>
+</html>
