@@ -3,13 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <title>افتح الرابط</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       background: #000;
       color: white;
       font-family: 'Tahoma', sans-serif;
       text-align: center;
       padding: 50px 10px;
+      margin: 0;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 30px;
+      color: #0ff;
     }
 
     .step {
@@ -21,7 +34,8 @@
       border-radius: 12px;
       padding: 15px 20px;
       margin: 15px auto;
-      width: 350px;
+      max-width: 500px;
+      width: 100%;
       box-shadow: 0 0 10px #0ff2;
       opacity: 0.4;
       pointer-events: none;
@@ -56,12 +70,6 @@
       justify-content: space-between;
     }
 
-    h2 {
-      font-size: 24px;
-      margin-bottom: 30px;
-      color: #0ff;
-    }
-
     .loading {
       display: inline-block;
       width: 16px;
@@ -92,7 +100,8 @@
       border-radius: 12px;
       border: 2px solid #444;
       padding: 15px 10px;
-      width: 380px;
+      max-width: 500px;
+      width: 100%;
       margin: auto;
       box-shadow: 0 0 10px #0ff3;
     }
@@ -106,8 +115,6 @@
       font-size: 16px;
       font-weight: bold;
       margin: 10px auto;
-      width: 350px;
-      text-align: center;
       pointer-events: none;
       opacity: 0.5;
       transition: 0.3s;
@@ -122,11 +129,24 @@
     .final-buttons a#btnRobux.active {
       background-color: dodgerblue;
     }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 20px;
+      }
+      .step span {
+        font-size: 14px;
+      }
+      .final-message {
+        font-size: 16px;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <h2>نفذ هذه الخطوات اولا لكي يتم فتح لك روابط التحميل</h2>
+  <h2>نفذ هذه الخطوات أولاً لكي يتم فتح لك روابط التحميل</h2>
 
   <div id="step1" class="step active">
     <a href="#" onclick="completeStep(1, 'https://www.youtube.com/@MRGAMESFF-k3q'); return false;">
@@ -195,25 +215,23 @@
     }
 
     function unlockButtons() {
-  const allCompleted = [...Array(3).keys()].every(i =>
-    document.getElementById('step' + (i + 1)).classList.contains('completed')
-  );
-  if (allCompleted) {
-    document.getElementById('finalMessage').innerText = '✅ تم تنفيذ كل الخطوات بنجاح';
-    document.getElementById('finalMessage').style.color = 'lime';
+      const allCompleted = [...Array(3).keys()].every(i =>
+        document.getElementById('step' + (i + 1)).classList.contains('completed')
+      );
+      if (allCompleted) {
+        document.getElementById('finalMessage').innerText = '✅ تم تنفيذ كل الخطوات بنجاح';
+        document.getElementById('finalMessage').style.color = 'lime';
 
-    const btnDownload = document.getElementById('btnDownload');
-   const btnRobux = document.getElementById('btnRobux');
+        const btnDownload = document.getElementById('btnDownload');
+        const btnRobux = document.getElementById('btnRobux');
 
-    btnDownload.classList.add('active');
-    btnRobux.classList.add('active');
+        btnDownload.classList.add('active');
+        btnRobux.classList.add('active');
 
-    // تغيير القفل المغلق إلى مفتوح
-    btnDownload.innerText = '🔓 اضغط هنا لتحميل لعبة روبلوكس مهكرة';
-    btnRobux.innerText = '🔓 اضغط هنا لمعرفة طريقة الحصول على روبوكس مجاني';
-  }
-}
-
+        btnDownload.innerText = '🔓 اضغط هنا لتحميل لعبة روبلوكس مهكرة';
+        btnRobux.innerText = '🔓 اضغط هنا لمعرفة طريقة الحصول على روبوكس مجاني';
+      }
+    }
 
     function goToDownload() {
       window.open('https://linkjust.com/eYX2RE', '_blank');
