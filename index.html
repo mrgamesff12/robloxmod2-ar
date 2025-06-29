@@ -150,7 +150,6 @@
       transform: scale(1.03);
     }
 
-    /* Animations */
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
@@ -161,7 +160,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Responsive */
     @media (max-width: 480px) {
       h2 {
         font-size: 20px;
@@ -177,8 +175,101 @@
 </head>
 <body>
 
-<!-- نفس محتوى الجسم كما هو بدون تغيير -->
-<!-- استخدم نفس HTML والـ JavaScript من الكود الذي كتبته سابقًا -->
+  <h2>نفذ هذه الخطوات أولاً لكي يتم فتح لك روابط التحميل</h2>
+
+  <div id="step1" class="step active">
+    <a href="#" onclick="completeStep(1, 'https://www.youtube.com/@MRGAMESFF-k3q'); return false;">
+      <span>📺🔔 اضغط هنا وقم بالاشتراك في القناة 1 وتفعيل زر الجرس</span>
+      <span id="check1">➡️</span>
+    </a>
+  </div>
+
+  <div id="step2" class="step">
+    <a href="#" onclick="completeStep(2, 'https://www.youtube.com/@DarkPanda-DP'); return false;">
+      <span>📺🔔 اضغط هنا وقم بالاشتراك في القناة 2 وتفعيل زر الجرس</span>
+      <span id="check2">➡️</span>
+    </a>
+  </div>
+
+  <div id="step3" class="step">
+    <a href="#" onclick="rotateStepLinks(3); return false;">
+      <span>👍💬 اضغط هنا وقم بعمل لايك وتعليق للفيديو الذي ستراه</span>
+      <span id="check3">➡️</span>
+    </a>
+  </div>
+
+  <div class="final-section">
+    <div id="finalMessage" class="final-message">❌ نفّذ الخطوات أولاً لكي يتم فتح روابط التحميل</div>
+    <div class="final-buttons">
+      <a id="btnDownload" href="#" onclick="goToDownload(); return false;">🔒 اضغط هنا لتحميل لعبة روبلوكس مهكرة</a>
+      <a id="btnRobux" href="#" onclick="goToRobux(); return false;">🔒 اضغط هنا لمعرفة طريقة الحصول على روبوكس مجاني</a>
+    </div>
+  </div>
+
+  <script>
+    const step3Links = [
+      "https://youtu.be/CYzCkO2faCI?si=dxjNGLWa1ZTBoUuO",
+      "https://youtu.be/FvKaH1O5p2A?si=fzpm_APuoR0k85iL",
+      "https://youtu.be/HT505S5e6OA?si=qSCthgAp7Di4MtFV",
+      "https://youtu.be/2NUIqCo9GsA?si=5B9x7PGkoVw49qqE",
+      "https://youtu.be/tRfwoy1EnTA?si=R2KtVKde3LmHgYRW"
+    ];
+
+    function completeStep(step, url) {
+      const checkSpan = document.getElementById('check' + step);
+      checkSpan.innerHTML = '<span class="loading"></span>';
+      window.open(url, '_blank');
+      setTimeout(() => {
+        document.getElementById('step' + step).classList.add('completed');
+        checkSpan.innerText = '✅';
+        const nextStep = document.getElementById('step' + (step + 1));
+        if (nextStep) {
+          nextStep.classList.add('active');
+        }
+        unlockButtons();
+      }, 6000);
+    }
+
+    function rotateStepLinks(step) {
+      const checkSpan = document.getElementById('check' + step);
+      const index = Math.floor(Math.random() * step3Links.length);
+      const selectedURL = step3Links[index];
+      checkSpan.innerHTML = '<span class="loading"></span>';
+      window.open(selectedURL, '_blank');
+      setTimeout(() => {
+        document.getElementById('step' + step).classList.add('completed');
+        checkSpan.innerText = '✅';
+        unlockButtons();
+      }, 6000);
+    }
+
+    function unlockButtons() {
+      const allCompleted = [...Array(3).keys()].every(i =>
+        document.getElementById('step' + (i + 1)).classList.contains('completed')
+      );
+      if (allCompleted) {
+        document.getElementById('finalMessage').innerText = '✅ تم تنفيذ كل الخطوات بنجاح';
+        document.getElementById('finalMessage').style.color = 'lime';
+
+        const btnDownload = document.getElementById('btnDownload');
+        const btnRobux = document.getElementById('btnRobux');
+
+        btnDownload.classList.add('active');
+        btnRobux.classList.add('active');
+
+        btnDownload.innerText = '🔓 اضغط هنا لتحميل لعبة روبلوكس مهكرة';
+        btnRobux.innerText = '🔓 اضغط هنا لمعرفة طريقة الحصول على روبوكس مجاني';
+      }
+    }
+
+    function goToDownload() {
+      window.open('https://linkjust.com/eYX2RE', '_blank');
+    }
+
+    function goToRobux() {
+      window.open('https://mrgamesff.blogspot.com/2025/06/blog-post_21.html', '_blank');
+    }
+  </script>
 
 </body>
 </html>
