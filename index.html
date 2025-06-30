@@ -251,6 +251,13 @@ const STEP_EXPIRY_MS = 24 * 60 * 60 * 1000; // يوم كامل
           if (savedState['step' + i]) {
             document.getElementById('step' + i).classList.add('completed');
             document.getElementById('check' + i).innerText = '✅';
+
+ // 👇 هذا هو الكود الجديد ليبقى الزر معطل بعد التحديث
+        const a = document.getElementById('step' + i).querySelector('a');
+        a.style.pointerEvents = 'none';
+        a.style.opacity = '0.5';
+
+
             const nextStep = document.getElementById('step' + (i + 1));
             if (nextStep) {
               nextStep.classList.add('active');
@@ -280,6 +287,13 @@ const STEP_EXPIRY_MS = 24 * 60 * 60 * 1000; // يوم كامل
       setTimeout(() => {
         document.getElementById('step' + step).classList.add('completed');
         checkSpan.innerText = '✅';
+
+     // كود يقوم بمنع الضغط علي الزر مجددا عند تنفيذ الخطوه
+  const a = document.getElementById('step' + step).querySelector('a');
+  a.style.pointerEvents = 'none';
+  a.style.opacity = '0.5';
+
+
         const nextStep = document.getElementById('step' + (step + 1));
         if (nextStep) {
           nextStep.classList.add('active');
@@ -299,6 +313,14 @@ const STEP_EXPIRY_MS = 24 * 60 * 60 * 1000; // يوم كامل
       setTimeout(() => {
         document.getElementById('step' + step).classList.add('completed');
         checkSpan.innerText = '✅';
+
+
+  // كود يقوم بمنع الضغط علي الزر مجددا عند تنفيذ الخطوه
+  const a = document.getElementById('step' + step).querySelector('a');
+  a.style.pointerEvents = 'none';
+  a.style.opacity = '0.5';
+
+
         saveStepState(step);
         unlockButtons();
         updateProgressBar();
@@ -319,7 +341,7 @@ const STEP_EXPIRY_MS = 24 * 60 * 60 * 1000; // يوم كامل
         btnDownload.classList.add('active');
         btnRobux.classList.add('active');
 
-        btnDownload.innerText = '🔓 اضغط هنا لتحميل لعبة روبلوكس مهكرة';
+        btnDownload.innerText = '🔓 اضغط هنا لتحميل لعبة روبلوكس مهكرة اخر اصدار';
         btnRobux.innerText = '🔓 اضغط هنا لمعرفة طريقة الحصول على روبوكس مجاني';
       }
     }
