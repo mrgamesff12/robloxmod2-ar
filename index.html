@@ -4,12 +4,8 @@
   <meta charset="UTF-8">
   <title>افتح الرابط</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: 'Tahoma', sans-serif;
@@ -20,13 +16,11 @@
       text-align: center;
       padding: 50px 10px;
     }
-
     @keyframes gradientBG {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-
     h2 {
       font-size: 24px;
       margin-bottom: 20px;
@@ -34,7 +28,6 @@
       text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
       animation: fadeInDown 1s ease forwards;
     }
-
     .progress-container {
       width: 100%;
       max-width: 500px;
@@ -45,7 +38,6 @@
       overflow: hidden;
       box-shadow: 0 0 10px #0ff6;
     }
-
     .progress-bar {
       height: 100%;
       width: 0%;
@@ -53,7 +45,6 @@
       transition: width 0.5s ease;
       border-radius: 10px;
     }
-
     .step {
       display: flex;
       align-items: center;
@@ -71,27 +62,20 @@
       transform: translateY(20px);
       transition: 0.5s ease;
     }
-
     .step.active {
       opacity: 1;
       pointer-events: auto;
       animation: fadeInUp 0.8s ease forwards;
     }
-
     .step.completed {
       border-color: lime;
       background-color: #141414dd;
     }
-
     .step span {
       text-align: right;
       font-size: 16px;
     }
-
-    .check {
-      font-size: 20px;
-    }
-
+    .check { font-size: 20px; }
     a {
       color: white;
       text-decoration: none;
@@ -100,7 +84,6 @@
       width: 100%;
       justify-content: space-between;
     }
-
     .loading {
       display: inline-block;
       width: 16px;
@@ -110,23 +93,19 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
-
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-
     .final-section {
       margin-top: 30px;
     }
-
     .final-message {
       font-size: 18px;
       margin-bottom: 10px;
       color: red;
       text-shadow: 0 0 5px red;
     }
-
     .final-buttons {
       background: #111c;
       border-radius: 12px;
@@ -137,7 +116,6 @@
       margin: auto;
       box-shadow: 0 0 12px #0ff4;
     }
-
     .final-buttons a {
       display: block;
       background-color: #555;
@@ -152,43 +130,37 @@
       transition: 0.3s;
       box-shadow: 0 0 6px #000;
     }
-
     .final-buttons a.active {
       background-color: #0c0;
       pointer-events: auto;
       opacity: 1;
       box-shadow: 0 0 15px #0f0;
     }
-
     .final-buttons a#btnRobux.active {
       background-color: dodgerblue;
       box-shadow: 0 0 15px dodgerblue;
     }
-
     .final-buttons a:hover {
       transform: scale(1.03);
     }
-
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes fadeInDown {
       from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     @media (max-width: 480px) {
-      h2 {
-        font-size: 20px;
-      }
-      .step span {
-        font-size: 14px;
-      }
-      .final-message {
-        font-size: 16px;
-      }
+      h2 { font-size: 20px; }
+      .step span { font-size: 14px; }
+      .final-message { font-size: 16px; }
+    }
+    #countdown {
+      color: #0ff;
+      font-size: 16px;
+      margin-right: 10px;
+      text-shadow: 0 0 5px #0ff;
     }
   </style>
 </head>
@@ -221,6 +193,14 @@
     </a>
   </div>
 
+  <div id="step4" class="step">
+    <a href="#" onclick="startStep4(); return false;" style="width: 100%;">
+      <span>⏳ اضغط هنا وقم بتحميل أو التسجيل في التطبيق الذي سيظهر&nbsp;لك</span>
+      <span id="countdown" style="display:none;">3:00</span>
+      <span id="check4">➡️</span>
+    </a>
+  </div>
+
   <div class="final-section">
     <div id="finalMessage" class="final-message">❌ نفّذ الخطوات أولاً لكي يتم فتح روابط التحميل</div>
     <div class="final-buttons">
@@ -229,144 +209,151 @@
     </div>
   </div>
 
-  <script>
-const STEP_EXPIRY_MS = 24 * 60 * 60 * 1000; // يوم كامل
-    const step3Links = [
-      "https://youtu.be/CYzCkO2faCI?si=dxjNGLWa1ZTBoUuO",
-      "https://youtu.be/FvKaH1O5p2A?si=fzpm_APuoR0k85iL",
-      "https://youtu.be/HT505S5e6OA?si=qSCthgAp7Di4MtFV",
-      "https://youtu.be/2NUIqCo9GsA?si=5B9x7PGkoVw49qqE",
-      "https://youtu.be/tRfwoy1EnTA?si=R2KtVKde3LmHgYRW"
-    ];
+<script>
+const STEP_EXPIRY_MS = 24 * 60 * 60 * 1000;
+const step3Links = [
+  "https://youtu.be/CYzCkO2faCI?si=dxjNGLWa1ZTBoUuO",
+  "https://youtu.be/FvKaH1O5p2A?si=fzpm_APuoR0k85iL",
+  "https://youtu.be/HT505S5e6OA?si=qSCthgAp7Di4MtFV",
+  "https://youtu.be/2NUIqCo9GsA?si=5B9x7PGkoVw49qqE",
+  "https://youtu.be/tRfwoy1EnTA?si=R2KtVKde3LmHgYRW"
+];
+const savedState = JSON.parse(localStorage.getItem("stepsState") || "{}");
+const isStateExpired = () => !savedState.timestamp || Date.now() - savedState.timestamp > STEP_EXPIRY_MS;
 
-    const savedState = JSON.parse(localStorage.getItem("stepsState") || "{}");
-    const isStateExpired = () => {
-      if (!savedState.timestamp) return true;
-      return Date.now() - savedState.timestamp > STEP_EXPIRY_MS;
-    };
-
-    window.onload = () => {
-      if (!isStateExpired()) {
-        for (let i = 1; i <= 3; i++) {
-          if (savedState['step' + i]) {
-            document.getElementById('step' + i).classList.add('completed');
-            document.getElementById('check' + i).innerText = '✅';
-
- // 👇 هذا هو الكود الجديد ليبقى الزر معطل بعد التحديث
+window.onload = () => {
+  if (!isStateExpired()) {
+    for (let i = 1; i <= 4; i++) {
+      if (savedState['step' + i]) {
+        document.getElementById('step' + i).classList.add('completed');
         const a = document.getElementById('step' + i).querySelector('a');
-        a.style.pointerEvents = 'none';
-        a.style.opacity = '0.5';
-
-
-            const nextStep = document.getElementById('step' + (i + 1));
-            if (nextStep) {
-              nextStep.classList.add('active');
-            }
-          } else {
-            break;
-          }
+        if (a) {
+          a.style.pointerEvents = 'none';
+          a.style.opacity = '0.5';
         }
-        unlockButtons();
-        updateProgressBar();
-      } else {
-        localStorage.removeItem("stepsState");
-      }
-    };
-
-    function saveStepState(step) {
-      const current = JSON.parse(localStorage.getItem("stepsState") || "{}");
-      current['step' + step] = true;
-      current.timestamp = Date.now();
-      localStorage.setItem("stepsState", JSON.stringify(current));
-    }
-
-    function completeStep(step, url) {
-      const checkSpan = document.getElementById('check' + step);
-      checkSpan.innerHTML = '<span class="loading"></span>';
-      window.open(url, '_blank');
-      setTimeout(() => {
-        document.getElementById('step' + step).classList.add('completed');
+        const checkSpan = document.getElementById('check' + i);
         checkSpan.innerText = '✅';
-
-     // كود يقوم بمنع الضغط علي الزر مجددا عند تنفيذ الخطوه
-  const a = document.getElementById('step' + step).querySelector('a');
-  a.style.pointerEvents = 'none';
-  a.style.opacity = '0.5';
-
-
-        const nextStep = document.getElementById('step' + (step + 1));
-        if (nextStep) {
-          nextStep.classList.add('active');
+        if (i < 4) {
+          const nextStep = document.getElementById('step' + (i + 1));
+          if (nextStep) nextStep.classList.add('active');
         }
-        saveStepState(step);
-        unlockButtons();
-        updateProgressBar();
-      }, 10000);
-    }
-
-    function rotateStepLinks(step) {
-      const checkSpan = document.getElementById('check' + step);
-      const index = Math.floor(Math.random() * step3Links.length);
-      const selectedURL = step3Links[index];
-      checkSpan.innerHTML = '<span class="loading"></span>';
-      window.open(selectedURL, '_blank');
-      setTimeout(() => {
-        document.getElementById('step' + step).classList.add('completed');
-        checkSpan.innerText = '✅';
-
-
-  // كود يقوم بمنع الضغط علي الزر مجددا عند تنفيذ الخطوه
-  const a = document.getElementById('step' + step).querySelector('a');
-  a.style.pointerEvents = 'none';
-  a.style.opacity = '0.5';
-
-
-        saveStepState(step);
-        unlockButtons();
-        updateProgressBar();
-      }, 10000);
-    }
-
-    function unlockButtons() {
-      const allCompleted = [...Array(3).keys()].every(i =>
-        document.getElementById('step' + (i + 1)).classList.contains('completed')
-      );
-      if (allCompleted) {
-        document.getElementById('finalMessage').innerText = '✅ تم تنفيذ كل الخطوات بنجاح';
-        document.getElementById('finalMessage').style.color = 'lime';
-
-        const btnDownload = document.getElementById('btnDownload');
-        const btnRobux = document.getElementById('btnRobux');
-
-        btnDownload.classList.add('active');
-        btnRobux.classList.add('active');
-
-        btnDownload.innerText = '🔓 اضغط هنا لتحميل لعبة روبلوكس مهكرة اخر اصدار';
-        btnRobux.innerText = '🔓 اضغط هنا لمعرفة طريقة الحصول على روبوكس مجاني';
-      }
-    }
-
-    function updateProgressBar() {
-      let completedSteps = 0;
-      for (let i = 1; i <= 3; i++) {
-        if (document.getElementById('step' + i).classList.contains('completed')) {
-          completedSteps++;
+        if (i === 4) {
+          document.getElementById('countdown').style.display = 'none';
         }
-      }
-      const progressPercent = (completedSteps / 3) * 100;
-      document.getElementById('progressBar').style.width = progressPercent + '%';
+      } else break;
     }
+    unlockButtons();
+    updateProgressBar();
+  } else localStorage.removeItem("stepsState");
+};
 
-    function goToDownload() {
-      window.open('https://mrgamesff.blogspot.com/2025/06/2025.html', '_blank');
-    }
+function saveStepState(step) {
+  const current = JSON.parse(localStorage.getItem("stepsState") || "{}");
+  current['step' + step] = true;
+  current.timestamp = Date.now();
+  localStorage.setItem("stepsState", JSON.stringify(current));
+}
 
-    function goToRobux() {
-      window.open('https://mrgamesff.blogspot.com/2025/06/blog-post_21.html', '_blank');
+function completeStep(step, url) {
+  const checkSpan = document.getElementById('check' + step);
+  checkSpan.innerHTML = '<span class="loading"></span>';
+  window.open(url, '_blank');
+  setTimeout(() => {
+    document.getElementById('step' + step).classList.add('completed');
+    checkSpan.innerText = '✅';
+    const a = document.getElementById('step' + step).querySelector('a');
+    a.style.pointerEvents = 'none';
+    a.style.opacity = '0.5';
+    const nextStep = document.getElementById('step' + (step + 1));
+    if (nextStep) nextStep.classList.add('active');
+    saveStepState(step);
+    unlockButtons();
+    updateProgressBar();
+  }, 10000);
+}
+
+function rotateStepLinks(step) {
+  const checkSpan = document.getElementById('check' + step);
+  const index = Math.floor(Math.random() * step3Links.length);
+  const selectedURL = step3Links[index];
+  checkSpan.innerHTML = '<span class="loading"></span>';
+  window.open(selectedURL, '_blank');
+  setTimeout(() => {
+    document.getElementById('step' + step).classList.add('completed');
+    checkSpan.innerText = '✅';
+    const a = document.getElementById('step' + step).querySelector('a');
+    a.style.pointerEvents = 'none';
+    a.style.opacity = '0.5';
+    document.getElementById('step4').classList.add('active');
+    saveStepState(step);
+    unlockButtons();
+    updateProgressBar();
+  }, 10000);
+}
+
+function unlockButtons() {
+  const allCompleted = [...Array(4).keys()].every(i =>
+    document.getElementById('step' + (i + 1)).classList.contains('completed'));
+  if (allCompleted) {
+    document.getElementById('finalMessage').innerText = '✅ تم تنفيذ كل الخطوات بنجاح';
+    document.getElementById('finalMessage').style.color = 'lime';
+    document.getElementById('btnDownload').classList.add('active');
+    document.getElementById('btnRobux').classList.add('active');
+    document.getElementById('btnDownload').innerText = '🔓 اضغط هنا لتحميل لعبة روبلوكس مهكرة';
+    document.getElementById('btnRobux').innerText = '🔓 اضغط هنا لمعرفة طريقة الحصول على روبوكس مجاني';
+  }
+}
+
+function updateProgressBar() {
+  let completed = 0;
+  for (let i = 1; i <= 4; i++) {
+    if (document.getElementById('step' + i).classList.contains('completed')) completed++;
+  }
+  document.getElementById('progressBar').style.width = (completed / 4 * 100) + '%';
+}
+
+function goToDownload() {
+  window.open('https://mrgamesff.blogspot.com/2025/06/2025.html', '_blank');
+}
+function goToRobux() {
+  window.open('https://mrgamesff.blogspot.com/2025/06/blog-post_21.html', '_blank');
+}
+
+let countdownStarted = false;
+let countdownInterval;
+function startStep4() {
+  const link = 'https://recessionhillside.com/evup4sz7w7?key=a0d12900f1df99075621dc113c77074b';
+  window.open(link, '_blank');
+
+  if (countdownStarted) return;
+  countdownStarted = true;
+
+  document.getElementById('check4').innerHTML = '<span class="loading"></span>';
+  const countdownElement = document.getElementById('countdown');
+  countdownElement.style.display = 'inline-block';
+  let timeLeft = 3 * 60;
+
+  countdownInterval = setInterval(() => {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    countdownElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    timeLeft--;
+
+    if (timeLeft < 0) {
+      clearInterval(countdownInterval);
+      document.getElementById('step4').classList.add('completed');
+      const a = document.getElementById('step4').querySelector('a');
+      a.style.pointerEvents = 'none';
+      a.style.opacity = '0.5';
+      countdownElement.style.display = 'none';
+      document.getElementById('check4').innerText = '✅';
+      saveStepState(4);
+      unlockButtons();
+      updateProgressBar();
     }
-  </script>
+  }, 1000);
+}
+</script>
 
 </body>
 </html>
-
- 
