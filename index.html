@@ -1,128 +1,144 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>افتح الرابط</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
-    html, body { overflow-x: hidden; }
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: 'Tahoma', sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       color: white;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
       text-align: center;
-      padding: 20px;
+      padding: 50px 10px;
     }
-    h2 { font-size: 22px; color: #00f0ff; }
-    #killsDisplay { font-size: 18px; margin-top: 10px; }
-    #game {
-      position: relative;
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #00ffff;
+      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+      animation: fadeInDown 1s ease forwards;
+    }
+
+    .progress-container {
       width: 100%;
-      max-width: 600px;
-      height: 200px;
-      background: #222;
-      margin: 20px auto;
+      max-width: 500px;
+      margin: 0 auto 30px;
+      height: 20px;
+      background-color: #444;
+      border-radius: 10px;
       overflow: hidden;
-      border: 3px solid #0ff;
-      border-radius: 15px;
+      box-shadow: 0 0 10px #0ff6;
     }
-    .dino {
-      position: absolute;
-      bottom: 0;
-      left: 50px;
-      width: 40px;
-      height: 40px;
-      background: yellow;
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #0ff, #00f);
+      transition: width 0.5s ease;
       border-radius: 10px;
     }
-    .cactus {
-      position: absolute;
-      bottom: 0;
-      width: 20px;
-      height: 50px;
-      background: green;
-      border-radius: 5px;
+
+    .step {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #111a;
+      border: 2px solid #444;
+      border-radius: 12px;
+      padding: 15px 20px;
+      margin: 15px auto;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 0 10px #0ff2;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(20px);
+      transition: 0.5s ease;
     }
-    #gameMessage {
+
+    .step.active {
+      opacity: 1;
+      pointer-events: auto;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .step.completed {
+      border-color: lime;
+      background-color: #141414dd;
+    }
+
+    .step span {
+      text-align: right;
+      font-size: 16px;
+    }
+
+    .check {
       font-size: 20px;
-      margin-top: 10px;
-      min-height: 30px;
-      color: #00f0ff;
     }
-    #countdownTimer {
-      display: none;
+
+    a {
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      justify-content: space-between;
     }
-    .spinner {
-      border: 6px solid #444;
-      border-top: 6px solid #00f0ff;
+
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #fff;
+      border-top: 2px solid transparent;
       border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      margin: 20px auto;
       animation: spin 1s linear infinite;
-      display: none;
     }
+
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
 
-    #centerRestartBtn, #subscribeBtn, #subscribeSuccessBtn, #commentBtn, #commentSuccessBtn {
-      padding: 12px 25px;
-      font-size: 17px;
-      margin-top: 20px;
-      border: none;
+    .final-section {
+      margin-top: 30px;
+    }
+
+    .final-message {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: red;
+      text-shadow: 0 0 5px red;
+    }
+
+    .final-buttons {
+      background: #111c;
       border-radius: 12px;
-      cursor: pointer;
-      box-shadow: 0 0 12px #ff004c;
-      transition: opacity 0.3s;
-    }
-    #centerRestartBtn {
-      display: none;
-      background: linear-gradient(45deg, #ff004c, #ff6a00);
-      color: white;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 999;
-    }
-    #subscribeBtn, #commentBtn {
-      display: none;
-      background: linear-gradient(45deg, #ff004c, #ff6a00);
-      color: white;
-    }
-    #subscribeBtn:disabled, #commentBtn:disabled {
-      opacity: 0.8;
-      cursor: not-allowed;
-    }
-    /* حالة زر النجاح معطّل */
-    #subscribeSuccessBtn, #commentSuccessBtn {
-      display: none;
-      background: #28a745;
-      color: white;
-      box-shadow: 0 0 12px #28a745;
-      cursor: not-allowed;
-      opacity: 0.8;
-    }
-    #subscribeSuccessBtn:disabled,
-    #commentSuccessBtn:disabled {
-      opacity: 0.8;
-      cursor: not-allowed;
+      border: 2px solid #444;
+      padding: 15px 10px;
+      max-width: 500px;
+      width: 100%;
+      margin: auto;
+      box-shadow: 0 0 12px #0ff4;
     }
 
-    .final-buttons-box {
-      border: 2px solid #00f0ff;
-      border-radius: 15px;
-      background: rgba(0, 255, 255, 0.05);
-      padding: 20px;
-      margin: 20px auto;
-      max-width: 420px;
-      box-shadow: 0 0 15px #00f0ff55;
-    }
-
-    .final-buttons-box a {
+    .final-buttons a {
       display: block;
       background-color: #555;
       color: white;
@@ -130,337 +146,205 @@
       border-radius: 10px;
       font-size: 16px;
       font-weight: bold;
-      margin: 10px 0;
+      margin: 10px auto;
       pointer-events: none;
       opacity: 0.5;
       transition: 0.3s;
-      text-decoration: none;
       box-shadow: 0 0 6px #000;
     }
 
-    .final-buttons-box a.active {
-      background-color: dodgerblue;
+    .final-buttons a.active {
+      background-color: #0c0;
       pointer-events: auto;
       opacity: 1;
+      box-shadow: 0 0 15px #0f0;
+    }
+
+    .final-buttons a#btnRobux.active {
+      background-color: dodgerblue;
       box-shadow: 0 0 15px dodgerblue;
+    }
+
+    .final-buttons a:hover {
+      transform: scale(1.03);
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 20px;
+      }
+      .step span {
+        font-size: 14px;
+      }
+      .final-message {
+        font-size: 16px;
+      }
     }
   </style>
 </head>
 <body>
 
-<h2>اقفز فوق الصبار 30 مرة لفتح روابط التحميل!</h2>
-<div id="killsDisplay">تجاوزت 0 من أصل 30</div>
-<div id="game">
-  <button id="centerRestartBtn" onclick="resetGame()">🔁 العب مجددًا</button>
-</div>
-<div id="gameMessage"></div>
-<div id="countdownTimer"></div>
-<div id="countdownSpinner" class="spinner"></div>
+  <h2>نفذ هذه الخطوات أولاً لكي يتم فتح لك روابط التحميل</h2>
 
-<button id="subscribeBtn" onclick="startSubscription()">📢 اضغط هنا وقم بالاشتراك في القناة للفوز!</button>
-<button id="subscribeSuccessBtn" disabled>✅ تم الاشتراك في القناة بنجاح</button>
-<br>
-<button id="commentBtn" onclick="startComment()">💬 اضغط هنا وقم بعمل لايك وتعليق مميز للفيديو</button>
-<button id="commentSuccessBtn" disabled>✅ تم عمل لايك والتعليق بنجاح</button>
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
 
-<div class="final-buttons-box">
-  <a id="btnDownload" href="#" onclick="goToDownload();return false;">🔒 اضغط هنا لتحميل روبلوكس مهكرة اخر اصدار</a>
-  <a id="btnRobux" href="#" onclick="goToRobux();return false;">🔒 اضغط هنا لمعرفة طريقة الحصول على روبوكس مجاني</a>
-</div>
+  <div id="step1" class="step active">
+    <a href="#" onclick="completeStep(1, 'https://www.youtube.com/@MRGAMESFF-k3q'); return false;">
+      <span>📺🔔 اضغط هنا وقم بالاشتراك في القناة 1 وتفعيل زر الجرس</span>
+      <span id="check1">➡️</span>
+    </a>
+  </div>
 
-<audio id="jumpSound" src="https://actions.google.com/sounds/v1/cartoon/pop.ogg"></audio>
-<audio id="hitSound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
-<audio id="winSound" src="https://actions.google.com/sounds/v1/cartoon/cheering.ogg"></audio>
+  <div id="step2" class="step">
+    <a href="#" onclick="completeStep(2, 'https://www.youtube.com/@DarkPanda-DP'); return false;">
+      <span>📺🔔 اضغط هنا وقم بالاشتراك في القناة 2 وتفعيل زر الجرس</span>
+      <span id="check2">➡️</span>
+    </a>
+  </div>
 
-<script>
-  const game = document.getElementById("game");
-  const dino = document.createElement("div");
-  dino.classList.add("dino");
-  game.appendChild(dino);
+  <div id="step3" class="step">
+    <a href="#" onclick="rotateStepLinks(3); return false;">
+      <span>👍💬 اضغط هنا وقم بعمل لايك وتعليق مميز للفيديو الذي ستراه</span>
+      <span id="check3">➡️</span>
+    </a>
+  </div>
 
-  const jumpSound = document.getElementById("jumpSound");
-  const hitSound = document.getElementById("hitSound");
-  const winSound = document.getElementById("winSound");
-  const killsDisplay = document.getElementById("killsDisplay");
-  const gameMessage = document.getElementById("gameMessage");
-  const centerRestartBtn = document.getElementById("centerRestartBtn");
-  const subscribeBtn = document.getElementById("subscribeBtn");
-  const subscribeSuccessBtn = document.getElementById("subscribeSuccessBtn");
-  const commentBtn = document.getElementById("commentBtn");
-  const commentSuccessBtn = document.getElementById("commentSuccessBtn");
-  const countdownSpinner = document.getElementById("countdownSpinner");
+  <div class="final-section">
+    <div id="finalMessage" class="final-message">❌ نفّذ الخطوات أولاً لكي يتم فتح روابط التحميل</div>
+    <div class="final-buttons">
+      <a id="btnDownload" href="#" onclick="goToDownload(); return false;">🔒 اضغط هنا لتحميل لعبة روبلوكس مهكرة اخر اصدار</a>
+      <a id="btnRobux" href="#" onclick="goToRobux(); return false;">🔒 اضغط هنا لمعرفة طريقة الحصول علي روبوكس مجاني</a>
+    </div>
+  </div>
 
-  let jumps = 0;
-  let gameOver = false;
-  let cactusSpeed = 5;
-  let isJumping = false;
-  let gameStarted = false;
+  <script>
+const STEP_EXPIRY_MS = 365 * 24 * 60 * 60 * 1000; // سنة كاملة
+    const step3Links = [
+      "https://youtu.be/CYzCkO2faCI?si=dxjNGLWa1ZTBoUuO",
+      "https://youtu.be/FvKaH1O5p2A?si=fzpm_APuoR0k85iL",
+      "https://youtu.be/HT505S5e6OA?si=qSCthgAp7Di4MtFV",
+      "https://youtu.be/2NUIqCo9GsA?si=5B9x7PGkoVw49qqE",
+      "https://youtu.be/tRfwoy1EnTA?si=R2KtVKde3LmHgYRW"
+    ];
 
-  // حالات الاشتراك والتعليق
-  let subscribed = false;
-  let commented = false;
+    const savedState = JSON.parse(localStorage.getItem("stepsState") || "{}");
+    const isStateExpired = () => {
+      if (!savedState.timestamp) return true;
+      return Date.now() - savedState.timestamp > STEP_EXPIRY_MS;
+    };
 
-  function jump() {
-    if (isJumping || gameOver) return;
-    if (!gameStarted) gameStarted = true;
-    isJumping = true;
-    jumpSound.currentTime = 0;
-    jumpSound.play();
-    dino.style.transition = `bottom 300ms ease-out`;
-    dino.style.bottom = "220px";
-    setTimeout(() => {
-      dino.style.transition = `bottom 300ms ease-in`;
-      dino.style.bottom = "0px";
-      setTimeout(() => isJumping = false, 300);
-    }, 300);
-  }
-
-  function createCactus() {
-    if (!gameStarted || gameOver || jumps >= 30) return;
-
-    let numberOfCacti = 1;
-    let spacing = 0;
-    if (jumps >= 21) {
-      numberOfCacti = Math.floor(Math.random() * 2) + 2;
-      spacing = 40;
-    }
-
-    for (let i = 0; i < numberOfCacti; i++) {
-      const cactus = document.createElement("div");
-      cactus.classList.add("cactus");
-      let pos = game.offsetWidth + i * spacing;
-      cactus.style.left = pos + "px";
-      game.appendChild(cactus);
-
-      function move() {
-        if (gameOver) return cactus.remove();
-        pos -= cactusSpeed;
-        cactus.style.left = pos + "px";
-
-        const dR = dino.getBoundingClientRect(), cR = cactus.getBoundingClientRect();
-        if (cR.left < dR.right && cR.right > dR.left && cR.bottom > dR.top + 10 && cR.top < dR.bottom) {
-          handleGameOver();
-          cactus.remove();
-          return;
-        }
-
-        if (pos < -cR.width) {
-          cactus.remove();
-          if (!gameOver && jumps < 30 && i === 0) {
-            jumps++;
-            killsDisplay.innerText = `تجاوزت ${jumps} من أصل 30`;
-            if (jumps >= 5 && jumps % 5 === 0) {
-              cactusSpeed *= 1.5;
-              showSpeedMessage();
+    window.onload = () => {
+      if (!isStateExpired()) {
+        for (let i = 1; i <= 3; i++) {
+          if (savedState['step' + i]) {
+            document.getElementById('step' + i).classList.add('completed');
+            document.getElementById('check' + i).innerText = '✅';
+            const nextStep = document.getElementById('step' + (i + 1));
+            if (nextStep) {
+              nextStep.classList.add('active');
             }
-            if (jumps === 30 && !gameOver) {
-              // لا ننهي اللعبة تلقائيا
-              gameMessage.style.color = "#00f0ff";
-              gameMessage.innerText = "✅ تهانينا! أنهيت التحدي! الآن اشترك وعلق واعمل لايك لفتح الروابط.";
-              subscribeBtn.style.display = "inline-block";
-              subscribeBtn.disabled = false;
-              commentBtn.style.display = "inline-block";
-              commentBtn.disabled = false;
-            }
+          } else {
+            break;
           }
-        } else {
-          requestAnimationFrame(move);
         }
+        unlockButtons();
+        updateProgressBar();
+      } else {
+        localStorage.removeItem("stepsState");
       }
-      move();
+    };
+
+    function saveStepState(step) {
+      const current = JSON.parse(localStorage.getItem("stepsState") || "{}");
+      current['step' + step] = true;
+      current.timestamp = Date.now();
+      localStorage.setItem("stepsState", JSON.stringify(current));
     }
-  }
 
-  function showSpeedMessage() {
-    const msg = document.createElement("div");
-    msg.innerText = "⚠️ ازدياد السرعة!";
-    msg.style.position = "absolute";
-    msg.style.top = "10px";
-    msg.style.right = "10px";
-    msg.style.background = "red";
-    msg.style.padding = "8px";
-    msg.style.borderRadius = "10px";
-    msg.style.fontWeight = "bold";
-    msg.style.zIndex = "1000";
-    game.appendChild(msg);
-    setTimeout(() => msg.remove(), 2000);
-  }
-
-  function handleGameOver() {
-    hitSound.play();
-    gameOver = true;
-    gameMessage.style.color = "#ff4444";
-    gameMessage.innerText = "💥 لقد خسرت! اشترك في القناة للفوز أو أعد المحاولة.";
-    centerRestartBtn.style.display = "block";
-    subscribeBtn.style.display = "inline-block";
-    subscribeBtn.disabled = false;
-    subscribeSuccessBtn.style.display = "none";
-    commentBtn.style.display = "none";
-    commentSuccessBtn.style.display = "none";
-  }
-
-  function resetGame() {
-    jumps = 0;
-    cactusSpeed = 5;
-    gameOver = false;
-    gameStarted = false;
-    subscribed = false;
-    commented = false;
-
-    killsDisplay.innerText = "تجاوزت 0 من أصل 30";
-    gameMessage.innerText = "";
-    gameMessage.style.color = "#00f0ff";
-
-    centerRestartBtn.style.display = "none";
-
-    subscribeBtn.style.display = "none";
-    subscribeBtn.disabled = false;
-
-    subscribeSuccessBtn.style.display = "none";
-    subscribeSuccessBtn.disabled = true;
-
-    commentBtn.style.display = "none";
-    commentBtn.disabled = false;
-
-    commentSuccessBtn.style.display = "none";
-    commentSuccessBtn.disabled = true;
-
-    countdownSpinner.style.display = "none";
-
-    const btnDownload = document.getElementById('btnDownload');
-    const btnRobux = document.getElementById('btnRobux');
-    btnDownload.classList.remove('active');
-    btnRobux.classList.remove('active');
-    btnDownload.innerText = btnDownload.innerText.replace('🔓', '🔒');
-    btnRobux.innerText = btnRobux.innerText.replace('🔓', '🔒');
-  }
-
-  function startSubscription() {
-    window.open('https://www.youtube.com/@MRGAMESFF-k3q', '_blank');
-    subscribeBtn.disabled = true;
-    gameMessage.innerText = "⏳ الرجاء الانتظار...";
-    countdownSpinner.style.display = "block";
-    centerRestartBtn.style.display = "none";
-
-    let t = 12;
-    const iv = setInterval(() => {
-      t--;
-      if (t === 0) {
-        clearInterval(iv);
-        countdownSpinner.style.display = "none";
-        winSound.play();
-
-        subscribed = true;
-        jumps = Math.max(jumps, 15);
-        killsDisplay.innerText = `تجاوزت ${jumps} من أصل 30`;
-
-        gameMessage.innerText = "🎉 شكرًا لاشتراكك! الخطوة الأولى تمت!";
-
-        subscribeSuccessBtn.style.display = "inline-block";
-        subscribeSuccessBtn.disabled = true;
-        subscribeBtn.style.display = "none";
-
-        if (!commented) {
-          commentBtn.style.display = "inline-block";
-          commentBtn.disabled = false;
+    function completeStep(step, url) {
+      const checkSpan = document.getElementById('check' + step);
+      checkSpan.innerHTML = '<span class="loading"></span>';
+      window.open(url, '_blank');
+      setTimeout(() => {
+        document.getElementById('step' + step).classList.add('completed');
+        checkSpan.innerText = '✅';
+        const nextStep = document.getElementById('step' + (step + 1));
+        if (nextStep) {
+          nextStep.classList.add('active');
         }
-
-        if (subscribed && commented && jumps >= 30) {
-          finishChallenge();
-        }
-      }
-    }, 1000);
-  }
-
-  function startComment() {
-    window.open('https://www.youtube.com/watch?v=FvKaH1O5p2A&t=51s', '_blank');
-    commentBtn.disabled = true;
-    gameMessage.innerText = "⏳ الرجاء الانتظار...";
-    countdownSpinner.style.display = "block";
-    centerRestartBtn.style.display = "none";
-
-    let t = 12;
-    const iv2 = setInterval(() => {
-      t--;
-      if (t === 0) {
-        clearInterval(iv2);
-        countdownSpinner.style.display = "none";
-        winSound.play();
-
-        commented = true;
-        jumps = Math.max(jumps, 30);
-        killsDisplay.innerText = `تجاوزت ${jumps} من أصل 30`;
-
-        gameMessage.innerText = "🎉 شكرًا لك! لقد اكتمل التحدي!";
-
-        commentSuccessBtn.style.display = "inline-block";
-        commentSuccessBtn.disabled = true;
-        commentBtn.style.display = "none";
-
-        if (subscribed && commented && jumps >= 30) {
-          finishChallenge();
-        }
-      }
-    }, 1000);
-  }
-
-  function finishChallenge() {
-    gameMessage.style.color = "#00f0ff";
-    gameMessage.innerText = "✅ تهانينا! أنهيت التحدي! روابط التحميل أصبحت متاحة.";
-
-    subscribeBtn.style.display = "none";
-    commentBtn.style.display = "none";
-    subscribeSuccessBtn.style.display = "inline-block";
-    commentSuccessBtn.style.display = "inline-block";
-
-    unlockButtons();
-
-    gameOver = true;
-  }
-
-  function unlockButtons() {
-    const btnDownload = document.getElementById('btnDownload');
-    const btnRobux = document.getElementById('btnRobux');
-
-    btnDownload.classList.add('active');
-    btnRobux.classList.add('active');
-
-    btnDownload.innerText = btnDownload.innerText.replace('🔒', '🔓');
-    btnRobux.innerText = btnRobux.innerText.replace('🔒', '🔓');
-  }
-
-  function goToDownload() {
-    window.open('https://linkjust.com/eYX2RE', '_blank');
-  }
-
-  function goToRobux() {
-    window.open('https://mrgamesff.blogspot.com/2025/06/blog-post_21.html', '_blank');
-  }
-
-  game.addEventListener("mousedown", (e) => {
-    if (e.target.tagName === "BUTTON") return;
-    if (e.button === 0 || e.button === 2) jump();
-  });
-
-  game.addEventListener("touchstart", (e) => {
-    if (e.target.tagName === "BUTTON") return;
-    e.preventDefault();
-    jump();
-  }, { passive: false });
-
-  window.addEventListener("keydown", (e) => {
-    if (e.code === "Space") {
-      e.preventDefault();
-      jump();
+        saveStepState(step);
+        unlockButtons();
+        updateProgressBar();
+      }, 10000);
     }
-  });
 
-  window.addEventListener("contextmenu", e => e.preventDefault());
+    function rotateStepLinks(step) {
+      const checkSpan = document.getElementById('check' + step);
+      const index = Math.floor(Math.random() * step3Links.length);
+      const selectedURL = step3Links[index];
+      checkSpan.innerHTML = '<span class="loading"></span>';
+      window.open(selectedURL, '_blank');
+      setTimeout(() => {
+        document.getElementById('step' + step).classList.add('completed');
+        checkSpan.innerText = '✅';
+        saveStepState(step);
+        unlockButtons();
+        updateProgressBar();
+      }, 10000);
+    }
 
-  setInterval(() => {
-    createCactus();
-  }, 1600);
-</script>
+    function unlockButtons() {
+      const allCompleted = [...Array(3).keys()].every(i =>
+        document.getElementById('step' + (i + 1)).classList.contains('completed')
+      );
+      if (allCompleted) {
+        document.getElementById('finalMessage').innerText = '✅ تم تنفيذ كل الخطوات بنجاح';
+        document.getElementById('finalMessage').style.color = 'lime';
+
+        const btnDownload = document.getElementById('btnDownload');
+        const btnRobux = document.getElementById('btnRobux');
+
+        btnDownload.classList.add('active');
+        btnRobux.classList.add('active');
+
+        btnDownload.innerText = '🔓 اضغط هنا لتحميل لعبة روبلوكس مهكرة اخر اصدار';
+        btnRobux.innerText = '🔓 اضغط هنا لمعرفة طريقة الحصول علي روبوكس مجاني';
+      }
+    }
+
+    function updateProgressBar() {
+      let completedSteps = 0;
+      for (let i = 1; i <= 3; i++) {
+        if (document.getElementById('step' + i).classList.contains('completed')) {
+          completedSteps++;
+        }
+      }
+      const progressPercent = (completedSteps / 3) * 100;
+      document.getElementById('progressBar').style.width = progressPercent + '%';
+    }
+
+    function goToDownload() {
+      window.open('https://linkjust.com/eYX2RE', '_blank');
+    }
+
+    function goToRobux() {
+      window.open('https://mrgamesff.blogspot.com/2025/06/blog-post_21.html', '_blank');
+    }
+  </script>
 
 </body>
 </html>
+
+ 
